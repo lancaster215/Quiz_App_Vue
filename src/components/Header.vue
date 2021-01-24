@@ -11,17 +11,8 @@
 				cols="6"
 				sm="6"
 			>
-				<h2 class="float-md-right">Counter: {{totalCorrectAns}}/ {{index+1}}</h2>
+				<h2 class="float-md-right">Counter: {{ $store.getters.totalCorrectAns }}/ {{ $store.getters.index+1 }}</h2>
 			</v-col>
 		</v-row>
 	</v-container>
 </template>
-
-<script>
-export default {
-    props: {
-        totalCorrectAns: Number,
-        index: Number
-    }
-}
-</script>

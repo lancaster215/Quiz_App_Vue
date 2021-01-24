@@ -56,9 +56,7 @@ export default {
         questions: Object,
         next: Function,
         questionNumber: Number,
-        increment: Function,
-        isCorrect: Boolean,
-        isClickedSubmit: Boolean
+        increment: Function
     },
     
     data() {
@@ -66,6 +64,8 @@ export default {
             selectedIndex: null,
             shuffledAnswers: [],
             correctIndex: null,
+            isCorrect: false,
+            isClickedSubmit: false
         }
     },
     
@@ -82,6 +82,8 @@ export default {
             immediate: true,
             handler() {
                 this.selectedIndex = null;
+                this.isCorrect = false;
+                this.isClickedSubmit = false;
                 this.shuffleAnswers();
             },
         },
@@ -103,8 +105,7 @@ export default {
             }
             this.increment(this.isCorrect);
         }
-    },
-
+    }
     
 }
 </script>

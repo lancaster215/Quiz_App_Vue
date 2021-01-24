@@ -12,8 +12,6 @@
                 v-on:next="next"
                 :questionNumber="index"
                 :increment="increment"
-                :isCorrect="isCorrect"
-                :isClickedSubmit="isClickedSubmit"
                 />
 			</v-layout>
 		</v-container>
@@ -37,16 +35,12 @@ export default {
             questions: [],
             index: 0,
             totalCorrectAns: 0,
-            isCorrect: false,
-            isClickedSubmit: false,
         }
     },
 
     methods: {
         next() {
             this.index++;
-            this.isCorrect=false
-            this.isClickedSubmit=false
         },
         increment(isCorrect) {
             if(isCorrect){

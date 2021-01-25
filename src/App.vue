@@ -1,16 +1,15 @@
 <template>
     <v-app>
-		<Header/>
+		<Header 
+        :totalCorrectAns='totalCorrectAns'
+        :index='index'/>
 		<v-container>
 			<v-layout>
 				<QuestionBox 
                 v-if="questions.length"
-                :questions="questions[$store.getters.index]"
-                v-on:next="next"
-                :questionNumber="$store.getters.index"
-                
+                :questions="questions[index]"
+                :questionNumber="index"
                 />
-                <!-- :increment="increment" -->
 			</v-layout>
 		</v-container>
     </v-app>
@@ -20,6 +19,8 @@
 import Header from './components/Header';
 import QuestionBox from './components/QuestionBox';
 import 'es6-promise/auto'
+import { mapGetters } from 'vuex'
+
 
 export default {
 	name: 'App',
@@ -34,10 +35,14 @@ export default {
         }
     },
 
+    computed: {
+        ...mapGetters([
+            'totalCorrectAns',
+            'index'
+        ]),
+    },
+
     methods: {
-        next() {
-            this.$store.commit('next')
-        },
     },
 	
 	mounted: function() {

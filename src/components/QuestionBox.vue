@@ -31,7 +31,7 @@
 				</v-btn>
 				<v-btn
 					color="success"
-					@click="$emit('next', (isCorrect, isClickedSubmit))"
+					@click="nextPage"
 					elevation="2"
   				    raised
                     :disabled="!isClickedSubmit"
@@ -48,13 +48,13 @@
 
 <script>
 import _ from 'lodash'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'QuestionBox',
 
     props: {
         questions: Object,
-        next: Function,
         questionNumber: Number,
     },
     
@@ -89,6 +89,10 @@ export default {
     },
 
     methods: {
+        ...mapActions([
+            'increment',
+            'next'
+        ]),
         selectedAnswer(index){
             this.selectedIndex = index
         },
@@ -97,15 +101,15 @@ export default {
             this.shuffledAnswers = _.shuffle(answers)
             this.correctIndex = this.shuffledAnswers.indexOf(this.questions.correct_answer)
         },
+        nextPage(){
+            this.next();
+        },
         submitAnswer() {
             this.isClickedSubmit = true;
             if(this.selectedIndex === this.correctIndex) {
                 this.isCorrect = true;
             }
             this.increment(this.isCorrect);
-        },
-        increment(isCorrect) {
-            this.$store.commit('increment', isCorrect)
         }
     }
     

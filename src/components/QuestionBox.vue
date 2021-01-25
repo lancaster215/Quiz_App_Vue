@@ -56,7 +56,6 @@ export default {
         questions: Object,
         next: Function,
         questionNumber: Number,
-        increment: Function
     },
     
     data() {
@@ -104,6 +103,9 @@ export default {
                 this.isCorrect = true;
             }
             this.increment(this.isCorrect);
+        },
+        increment(isCorrect) {
+            this.$store.commit('increment', isCorrect)
         }
     }
     

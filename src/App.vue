@@ -1,18 +1,16 @@
 <template>
     <v-app>
-		<Header 
-            :totalCorrectAns="totalCorrectAns"
-            :index="index"
-        />
+		<Header/>
 		<v-container>
 			<v-layout>
 				<QuestionBox 
                 v-if="questions.length"
-                :questions="questions[index]"
+                :questions="questions[$store.getters.index]"
                 v-on:next="next"
-                :questionNumber="index"
-                :increment="increment"
+                :questionNumber="$store.getters.index"
+                
                 />
+                <!-- :increment="increment" -->
 			</v-layout>
 		</v-container>
     </v-app>
@@ -21,10 +19,10 @@
 <script>
 import Header from './components/Header';
 import QuestionBox from './components/QuestionBox';
+import 'es6-promise/auto'
 
 export default {
 	name: 'App',
-
 	components: {
 		Header,
 		QuestionBox
@@ -33,20 +31,13 @@ export default {
 	data() {
         return {
             questions: [],
-            index: 0,
-            totalCorrectAns: 0,
         }
     },
 
     methods: {
         next() {
-            this.index++;
+            this.$store.commit('next')
         },
-        increment(isCorrect) {
-            if(isCorrect){
-                this.totalCorrectAns++;
-            }
-        }
     },
 	
 	mounted: function() {

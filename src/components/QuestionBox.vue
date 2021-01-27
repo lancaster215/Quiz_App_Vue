@@ -33,7 +33,7 @@
 					elevation="2"
   				    raised
                     @click="submitAnswer"
-                    :disabled="this.selectedIndex === null"
+                    :disabled="this.selectedIndex === null || this.isClickedSubmit"
 				>
 					Submit
 				</v-btn>

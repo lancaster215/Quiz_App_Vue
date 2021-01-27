@@ -4,5 +4,8 @@ export default {
   },
   index: (state) => {
     return state.index
+  },
+  greetings: (state) => {
+    return state.greetings
   }
 }

@@ -9,6 +9,7 @@
                 v-if="questions.length"
                 :questions="questions[index]"
                 :questionNumber="index"
+                :totalCorrectAns='totalCorrectAns'
                 />
 			</v-layout>
 		</v-container>
@@ -31,7 +32,7 @@ export default {
 
 	data() {
         return {
-            questions: [],
+            questions: []
         }
     },
 
@@ -54,7 +55,7 @@ export default {
 		})
 		.then((jsonData) => {
             this.questions = jsonData.results
-		})
+        })
     }
 };
 </script>

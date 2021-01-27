@@ -1,6 +1,14 @@
 <template>
 	<v-flex xs12 sm8 offset-sm2>
-		<v-card>
+        <v-card v-if="viewScore">
+            <v-card-title class="center">Your Score</v-card-title>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-text>
+                <h1 class="center">{{ totalCorrectAns }}</h1><br/>
+                <h2 class="center">{{ this.greet }}</h2>
+            </v-card-text>
+        </v-card>
+		<v-card v-else>
 			<v-card-title>Question #{{ questionNumber+1 }}:</v-card-title> 
             <v-card-title class="center">{{ questions.question }}</v-card-title>
             <v-divider class="mx-4"></v-divider>
@@ -34,7 +42,7 @@
 					@click="nextPage"
 					elevation="2"
   				    raised
-                    :disabled="!isClickedSubmit"
+                    :disabled="!isClickedSubmit || questionNumber >= 9"
 				>
 					Next
 				</v-btn>
@@ -48,7 +56,7 @@
 
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
     name: 'QuestionBox',
@@ -56,6 +64,7 @@ export default {
     props: {
         questions: Object,
         questionNumber: Number,
+        totalCorrectAns: Number,
     },
     
     data() {
@@ -64,7 +73,9 @@ export default {
             shuffledAnswers: [],
             correctIndex: null,
             isCorrect: false,
-            isClickedSubmit: false
+            isClickedSubmit: false,
+            viewScore: false,
+            greet: ''
         }
     },
     
@@ -73,7 +84,10 @@ export default {
             let answers = [...this.questions.incorrect_answers]
             answers.push(this.questions.correct_answer)
             return answers
-        }
+        },
+        ...mapGetters([
+            'greetings'
+        ])
     },
 
     watch: {
@@ -86,6 +100,22 @@ export default {
                 this.shuffleAnswers();
             },
         },
+        totalCorrectAns: {
+            immediate: true,
+            handler(){
+                if(this.totalCorrectAns === 10){
+                    this.greet = this.greetings[0].greet
+                } else if(this.totalCorrectAns === 9){
+                    this.greet = this.greetings[1].greet
+                } else if(this.totalCorrectAns === 8){
+                    this.greet = this.greetings[2].greet
+                } else if(this.totalCorrectAns === 7){
+                    this.greet = this.greetings[3].greet
+                } else if(this.totalCorrectAns <= 6){
+                    this.greet = this.greetings[4].greet
+                }
+            }
+        }
     },
 
     methods: {
@@ -106,6 +136,31 @@ export default {
         },
         submitAnswer() {
             this.isClickedSubmit = true;
+            if(this.questionNumber === 9){
+                this.viewScore = true;
+                // switch(this.totalCorrectAns){
+                //     case this.totalCorrectAns === 10:
+                //         this.greet = this.greetings[0].greet
+                //         break;
+                //     case this.totalCorrectAns === 9:
+                //         this.greet = this.greetings[1].greet
+                //         break;
+                //     case this.totalCorrectAns === 8:
+                //         this.greet = this.greetings[2].greet
+                //         break;
+                //     case this.totalCorrectAns === 7:
+                //         this.greet = this.greetings[3].greet
+                //         break;
+                //     case this.totalCorrectAns === 6:
+                //         this.greet = this.greetings[4].greet
+                //         break;
+                //     default:
+                //         break;
+                // }
+                // for(var i = 0; i <= this.greetings.length(); i++){
+                
+                // }
+            }
             if(this.selectedIndex === this.correctIndex) {
                 this.isCorrect = true;
             }

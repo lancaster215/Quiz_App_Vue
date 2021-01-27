@@ -1,6 +1,8 @@
 export default {
   next(state){
-    state.index++;
+    if(state.index <= 10){
+      state.index++;
+    }
   },
     
   increment(state, isCorrect) {

@@ -7,5 +7,14 @@ export default {
   },
   greetings: (state) => {
     return state.greetings
-  }
+  },
+  categories: (state) => {
+    return state.categories
+  },
+  questions: (state) => {
+    return state.questions
+  },
+  viewScore: (state) => {
+    return state.viewScore
+  },
 }

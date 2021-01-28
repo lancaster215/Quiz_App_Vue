@@ -4,5 +4,11 @@ export default {
     },
     increment: ({ commit }, payload) => {
         commit('increment', payload)
+    },
+    selected: ({ commit }, payload) => {
+        commit('selected', payload)
+    },
+    final: ({ commit }, payload) => {
+        commit('final', payload)
     }
 }

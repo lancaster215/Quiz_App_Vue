@@ -1,6 +1,6 @@
 <template>
 	<v-flex xs12 sm8 offset-sm2>
-        <v-card v-if="viewScore">
+        <v-card v-if="this.$store.state.viewScore">
             <v-card-title class="center">Your Score</v-card-title>
             <v-divider class="mx-4"></v-divider>
             <v-card-text>
@@ -48,7 +48,10 @@
 				</v-btn>
 			</v-card-actions>
             <v-card-text v-if="!isCorrect && isClickedSubmit">
-                <p>Correct Answer is: {{ this.questions.correct_answer }}</p>
+                <p class="incorrect">Correct Answer is: {{ this.questions.correct_answer }}</p>
+            </v-card-text>
+            <v-card-text v-else-if="isCorrect && isClickedSubmit">
+                <p class="correct">Correct!</p>
             </v-card-text>
 		</v-card>
 	</v-flex>
@@ -74,7 +77,6 @@ export default {
             correctIndex: null,
             isCorrect: false,
             isClickedSubmit: false,
-            viewScore: false,
             greet: ''
         }
     },
@@ -86,8 +88,8 @@ export default {
             return answers
         },
         ...mapGetters([
-            'greetings'
-        ])
+            'greetings',
+        ]),
     },
 
     watch: {
@@ -121,7 +123,8 @@ export default {
     methods: {
         ...mapActions([
             'increment',
-            'next'
+            'next',
+            'final',
         ]),
         selectedAnswer(index){
             this.selectedIndex = index
@@ -137,29 +140,8 @@ export default {
         submitAnswer() {
             this.isClickedSubmit = true;
             if(this.questionNumber === 9){
-                this.viewScore = true;
-                // switch(this.totalCorrectAns){
-                //     case this.totalCorrectAns === 10:
-                //         this.greet = this.greetings[0].greet
-                //         break;
-                //     case this.totalCorrectAns === 9:
-                //         this.greet = this.greetings[1].greet
-                //         break;
-                //     case this.totalCorrectAns === 8:
-                //         this.greet = this.greetings[2].greet
-                //         break;
-                //     case this.totalCorrectAns === 7:
-                //         this.greet = this.greetings[3].greet
-                //         break;
-                //     case this.totalCorrectAns === 6:
-                //         this.greet = this.greetings[4].greet
-                //         break;
-                //     default:
-                //         break;
-                // }
-                // for(var i = 0; i <= this.greetings.length(); i++){
-                
-                // }
+                this.final()
+    
             }
             if(this.selectedIndex === this.correctIndex) {
                 this.isCorrect = true;
@@ -181,10 +163,10 @@ export default {
 }
 
 .correct {
-    background-color: var(--v-secondary);
+    color: lightgreen;
 }
 
 .incorrect {
-    background-color: var(--v-error);
+    color: red;
 }
 </style>

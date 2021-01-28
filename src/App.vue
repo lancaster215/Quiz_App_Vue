@@ -2,7 +2,10 @@
     <v-app>
 		<Header 
         :totalCorrectAns='totalCorrectAns'
-        :index='index'/>
+        :index='index'
+        :categories='categories'
+        :viewScore='viewScore'
+        />
 		<v-container>
 			<v-layout>
 				<QuestionBox 
@@ -30,33 +33,15 @@ export default {
 		QuestionBox
 	},
 
-	data() {
-        return {
-            questions: []
-        }
-    },
-
     computed: {
         ...mapGetters([
             'totalCorrectAns',
-            'index'
+            'index',
+            'categories',
+            'questions',
+            'viewScore'
         ]),
     },
-
-    methods: {
-    },
-	
-	mounted: function() {
-		fetch('https://opentdb.com/api.php?amount=10&category=18', {
-			method: 'get',
-		})
-		.then((res) => {
-			return res.json()
-		})
-		.then((jsonData) => {
-            this.questions = jsonData.results
-        })
-    }
 };
 </script>
 
